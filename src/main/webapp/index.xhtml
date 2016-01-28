@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<ui:composition template="/template/_main.xhtml">
+	
+		<ui:define name="title">
+			<title>Inicial</title>
+		</ui:define>
+		
+		<ui:define name="body">
+			<h1>Olá</h1>
+			
+			<ul>
+				<ui:repeat var="name" value="#{serversBean.names}">
+					<li>#{name.get("name")}</li>
+				</ui:repeat>
+			</ul>
+			
+		</ui:define>
+	
+	</ui:composition>
+</html>
