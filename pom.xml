@@ -35,11 +35,6 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
-    <!-- dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency-->
     <dependency>
       <groupId>javax.faces</groupId>
       <artifactId>javax.faces-api</artifactId>
@@ -51,9 +46,19 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>org.apache.httpcomponents</groupId>
-    	<artifactId>httpclient</artifactId>
-    	<version>4.5.1</version>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss</groupId>
+      <artifactId>jboss-client</artifactId>
+      <version>9.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.0-api</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
