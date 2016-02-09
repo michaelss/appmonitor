@@ -3,11 +3,10 @@ package org.michaelss.appmonitor.connectors;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -17,41 +16,43 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.michaelss.appmonitor.dtos.AppDTO;
 
-public class TomcatConnector {
+public class TomcatConnector implements ServerConnector {
 
-	public List<Map<String, String>> getNames() throws IOException {
+	@Override
+	public List<AppDTO> getAppList(HttpHost hostData, UsernamePasswordCredentials credentials) {
+
 		CredentialsProvider credsProvider = new BasicCredentialsProvider();
-		credsProvider.setCredentials(new AuthScope("localhost", 8081),
-				new UsernamePasswordCredentials("tomcat", "tomcat"));
+		credsProvider.setCredentials(new AuthScope(hostData), credentials);
 		CloseableHttpClient httpclient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
 
-		HttpGet httpget = new HttpGet("http://localhost:8081/manager/text/list");
-
-		CloseableHttpResponse response = httpclient.execute(httpget);
-		List<String> appRawList = getAppList(EntityUtils.toString(response.getEntity()));
-
-		List<Map<String, String>> appsList = appRawList.stream().map(this::getAppDetailsMap)
-				.collect(Collectors.toList());
-
-		return appsList;
+		HttpGet httpget = new HttpGet(
+				String.format("http://%s:%d/manager/text/list", hostData.getHostName(), hostData.getPort()));
+		
+		try {
+			CloseableHttpResponse response = httpclient.execute(httpget);
+			List<String> appRawList = getAppList(EntityUtils.toString(response.getEntity()));
+			return appRawList.stream().map(this::getAppDTO).collect(Collectors.toList());
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}	
 	}
-
+	
 	private List<String> getAppList(String appsString) {
+		
 		String[] itemArray = appsString.split("\n");
 		return new ArrayList<String>(Arrays.asList(itemArray)).stream().filter(i -> i.startsWith("/"))
 				.collect(Collectors.toList());
 	}
 
-	private Map<String, String> getAppDetailsMap(String appDetailsRaw) {
+	private AppDTO getAppDTO(String appDetailsRaw) {
+		
 		String[] details = appDetailsRaw.split(":");
-
-		Map<String, String> detailsMap = new HashMap<>();
-		detailsMap.put("name", details[3]);
-		detailsMap.put("running", (details[1] == "running") ? "true" : "false");
-		detailsMap.put("sessions", details[2]);
-
-		return detailsMap;
+		return new AppDTO(details[3], details[1] == "running");
 	}
 
 }
