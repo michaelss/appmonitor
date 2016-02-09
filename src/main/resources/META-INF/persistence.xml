@@ -8,7 +8,6 @@
 		<description>Appmonitor Persistence Unit</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
-		<class>org.michaelss.appmonitor.models.ServerType</class>
 		<class>org.michaelss.appmonitor.models.ServerInstance</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>

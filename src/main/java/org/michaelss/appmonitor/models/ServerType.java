@@ -1,33 +1,23 @@
 package org.michaelss.appmonitor.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public enum ServerType {
 
-@Entity
-public class ServerType {
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-
-	private String description;
-
-	public Integer getId() {
-		return id;
+	TOMCAT ("tomcat", "org.michaelss.appmonitor.connectors.TomcatConnector"),
+	WILDFLY ("wildfly", "org.michaelss.appmonitor.connectors.WildflyConnector");
+	
+	private String name;
+	private String connectorClass;
+	
+	ServerType(String name, String connectorClass) {
+		this.name = name;
+		this.connectorClass = connectorClass;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public String getName() {
+		return name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getConnectorClass() {
+		return connectorClass;
 	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-   
 }

@@ -22,7 +22,7 @@ public class ServerInstanceResource {
 	
 	@GET
 	public List<ServerInstance> list() {
-		return manager.createQuery("from Server", ServerInstance.class).getResultList();
+		return manager.createQuery("from ServerInstance", ServerInstance.class).getResultList();
 	}
 	
 	@POST

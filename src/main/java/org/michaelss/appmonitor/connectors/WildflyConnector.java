@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.business;
+package org.michaelss.appmonitor.connectors;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,13 +17,20 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
-public class JBossClient {
+import org.apache.http.HttpHost;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.michaelss.appmonitor.dtos.AppDTO;
 
-	public List<String> getApps() {
-        String host = "localhost";
-        int port = 9990;  // management-web port
+public class WildflyConnector implements ServerConnector {
+
+	@Override
+	public List<AppDTO> getAppList(HttpHost hostData, UsernamePasswordCredentials credentials) {
+		
         String urlString =
-            System.getProperty("jmx.service.url","service:jmx:remote+http://" + host + ":" + port);
+            System.getProperty("jmx.service.url","service:jmx:remote+http://"
+            		+ hostData.getHostName() + ":" 
+            		+ hostData.getPort());
+        
         try {
 			JMXServiceURL serviceURL = new JMXServiceURL(urlString);
 			JMXConnector jmxConnector = JMXConnectorFactory.connect(serviceURL, null);
@@ -32,11 +39,11 @@ public class JBossClient {
 			ObjectName depl = new ObjectName("jboss.as:deployment=*");
 			Set<ObjectInstance> obs = connection.queryMBeans(depl, null);
 			
-			List<String> apps = new ArrayList<>();
+			List<AppDTO> apps = new ArrayList<>();
 			for (ObjectInstance o : obs) {
 				ObjectName n = o.getObjectName();
-				apps.add(String.format("%s: %s", connection.getAttribute(n, "name"),
-						connection.getAttribute(n, "enabled")));
+				apps.add(new AppDTO(connection.getAttribute(n, "name").toString(),
+						connection.getAttribute(n, "enabled") == "true"));
 			}
 			
 			jmxConnector.close();

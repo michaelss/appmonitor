@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.managedbeans;
+package org.michaelss.appmonitor.connectors;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,16 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.enterprise.inject.Model;
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -27,8 +18,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-@Model
-public class ServersBean {
+public class TomcatConnector {
 
 	public List<Map<String, String>> getNames() throws IOException {
 		CredentialsProvider credsProvider = new BasicCredentialsProvider();
@@ -62,35 +52,6 @@ public class ServersBean {
 		detailsMap.put("sessions", details[2]);
 
 		return detailsMap;
-	}
-
-	public String teste() throws Exception {
-
-		System.out.println("Entrou no teste........");
-
-		String serverURL = "service:jmx:remote+http://localhost:9990";
-
-		HashMap env = new HashMap();
-		String[] creds = {"admin", "m1s2s3$%"};
-		env.put(JMXConnector.CREDENTIALS, creds);
-
-		JMXServiceURL url = new JMXServiceURL(serverURL);
-		JMXConnector jmxConnector = JMXConnectorFactory.connect(url, env);
-		MBeanServerConnection connection = jmxConnector.getMBeanServerConnection();
-
-		ObjectName name = new ObjectName("jboss.as:deployment=appmonitor.war");
-		System.out.println(connection.getMBeanInfo(name).getDescription());
-
-		ObjectName depl = new ObjectName("jboss.as:deployment=*");
-		Set<ObjectInstance> obs = connection.queryMBeans(depl, null);
-
-		obs.forEach(o -> {
-			System.out.println(o.getObjectName().toString());
-		});
-
-		jmxConnector.close();
-
-		return "/jboss-jmx.html?faces-redirect=true";
 	}
 
 }

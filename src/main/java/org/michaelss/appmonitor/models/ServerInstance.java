@@ -1,6 +1,8 @@
 package org.michaelss.appmonitor.models;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,11 +18,14 @@ public class ServerInstance {
 	
 	private String host;
 	
-	private String port;
+	private Integer port;
 	
 	private String username;
 	
 	private String password;
+	
+	@Enumerated(EnumType.STRING)
+	private ServerType serverType;
 
 	public Integer getId() {
 		return id;
@@ -46,11 +51,11 @@ public class ServerInstance {
 		this.host = host;
 	}
 
-	public String getPort() {
+	public Integer getPort() {
 		return port;
 	}
 
-	public void setPort(String port) {
+	public void setPort(Integer port) {
 		this.port = port;
 	}
 
@@ -68,6 +73,14 @@ public class ServerInstance {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public ServerType getServerType() {
+		return serverType;
+	}
+
+	public void setServerType(ServerType serverType) {
+		this.serverType = serverType;
 	}
 
 }
