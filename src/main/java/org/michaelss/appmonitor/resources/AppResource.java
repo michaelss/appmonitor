@@ -17,7 +17,7 @@ import org.michaelss.appmonitor.connectors.ServerConnector;
 import org.michaelss.appmonitor.dtos.AppDTO;
 import org.michaelss.appmonitor.models.ServerInstance;
 
-@Path("server")
+@Path("servers")
 @Produces({ MediaType.APPLICATION_JSON })
 public class AppResource {
 	
@@ -31,6 +31,10 @@ public class AppResource {
 		
 		//TODO: Put this code in a business logic class
 		ServerInstance instance = manager.find(ServerInstance.class, id);
+		if (instance == null) {
+			return null;
+		}
+		
 		String connectorClass = instance.getServerType().getConnectorClass();
 		try {
 			ServerConnector connector = (ServerConnector) Class.forName(connectorClass).newInstance();

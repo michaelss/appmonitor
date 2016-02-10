@@ -11,9 +11,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.michaelss.appmonitor.dtos.BasicServerInstanceDTO;
 import org.michaelss.appmonitor.models.ServerInstance;
 
-@Path("server")
+@Path("servers")
 @Produces({ MediaType.APPLICATION_JSON })
 public class ServerInstanceResource {
 
@@ -21,8 +22,15 @@ public class ServerInstanceResource {
 	private EntityManager manager;
 	
 	@GET
-	public List<ServerInstance> list() {
-		return manager.createQuery("from ServerInstance", ServerInstance.class).getResultList();
+	public List<BasicServerInstanceDTO> list() {
+		return manager.createQuery("select new org.michaelss.appmonitor.dtos.BasicServerInstanceDTO("
+				+ "s.id, "
+				+ "s.description, "
+				+ "s.host, "
+				+ "s.port, "
+				+ "s.serverType) "
+				+ "from ServerInstance as s", 
+				BasicServerInstanceDTO.class).getResultList();
 	}
 	
 	@POST

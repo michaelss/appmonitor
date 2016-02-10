@@ -1,0 +1,60 @@
+<br>
+<div class="row">
+    <div class="small-12 columns">
+        <h1>New server</h1>
+        <p class="subheader">Register a new application server.</p>
+    </div>
+</div>
+
+
+<div class="row column">
+    <hr>
+</div>
+
+<div class="row small-up-1 medium-up-2 large-up-3">
+    <form>
+        <div class="small-12 medium-8 columns">
+            <label>Description
+                <textarea placeholder="Briefly describe this server."></textarea>
+            </label>
+        </div>
+        <div class="small-12 medium-4 columns">
+            <label>Server type
+                <select>
+                    <option value="-1">Choose one</option>
+                    <option value="TOMCAT">Tomcat</option>
+                    <option value="WILDFLY">Wildfly</option>
+                    <option value="JBOSS">JBoss</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="small-12 medium-8 columns">
+            <label>Hostname or IP
+                <input type="text" placeholder="host.domain.com">
+            </label>
+        </div>
+        <div class="small-12 medium-4  columns">
+            <label>Port number
+                <input type="number" placeholder="9990">
+            </label>
+            <p class="help-text">Usually 9990 for JBoss/Wildfly and 8080 for Tomcat.</p>
+        </div>
+
+        <div class="small-12 medium-6 columns">
+            <label>Username
+                <input type="text" placeholder="">
+            </label>
+        </div>
+        <div class="small-12 medium-6 columns">
+            <label>Password
+                <input type="text" placeholder="">
+            </label>
+        </div>
+
+        <div class="small-12 columns">
+            <a href="javascript:history.back(1);" class="hollow button">Cancel</a>
+            <button type="submit" class="button">Save</button>
+        </div>
+    </form>
+</div>
