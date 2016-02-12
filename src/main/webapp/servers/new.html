@@ -11,30 +11,29 @@
     <hr>
 </div>
 
-<div class="row small-up-1 medium-up-2 large-up-3">
-    <form>
+<div class="row small-up-1 medium-up-2 large-up-3" ng-controller="ServersNewCtrl">
+    <form ng-submit="addServer()">
         <div class="small-12 medium-8 columns">
             <label>Description
-                <textarea placeholder="Briefly describe this server."></textarea>
+                <textarea placeholder="Briefly describe this server." ng-model="form.description"></textarea>
             </label>
         </div>
         <div class="small-12 medium-4 columns">
             <label>Server type
-                <select>
+                <select ng-model="form.serverType">
                     <option value="-1">Choose one</option>
                     <option value="TOMCAT">Tomcat</option>
                     <option value="WILDFLY">Wildfly</option>
-                    <option value="JBOSS">JBoss</option>
                 </select>
             </label>
         </div>
 
         <div class="small-12 medium-8 columns">
             <label>Hostname or IP
-                <input type="text" placeholder="host.domain.com">
+                <input type="text" placeholder="host.domain.com" ng-model="form.host">
             </label>
         </div>
-        <div class="small-12 medium-4  columns">
+        <div class="small-12 medium-4  columns" ng-model="form.port">
             <label>Port number
                 <input type="number" placeholder="9990">
             </label>
@@ -43,10 +42,10 @@
 
         <div class="small-12 medium-6 columns">
             <label>Username
-                <input type="text" placeholder="">
+                <input type="text" placeholder="" ng-model="form.username">
             </label>
         </div>
-        <div class="small-12 medium-6 columns">
+        <div class="small-12 medium-6 columns" ng-model="form.password">
             <label>Password
                 <input type="text" placeholder="">
             </label>

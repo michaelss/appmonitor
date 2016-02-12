@@ -14,7 +14,7 @@ appmonitor.config(['$routeProvider',
       }).
       when('/servers/new', {
           templateUrl: 'servers/new.html',
-          controller: 'ServerNewCtrl'
+          controller: 'ServersNewCtrl'
       }).
       when('/servers/:serverId', {
           templateUrl: 'detail.html',
