@@ -15,13 +15,13 @@
     <form ng-submit="addServer()">
         <div class="small-12 medium-8 columns">
             <label>Description
-                <textarea placeholder="Briefly describe this server." ng-model="form.description"></textarea>
+                <textarea placeholder="Briefly describe this server." ng-model="form.description" required></textarea>
             </label>
         </div>
         <div class="small-12 medium-4 columns">
             <label>Server type
-                <select ng-model="form.serverType">
-                    <option value="-1">Choose one</option>
+                <select ng-model="form.serverType" required>
+                    <option value="">Choose one</option>
                     <option value="TOMCAT">Tomcat</option>
                     <option value="WILDFLY">Wildfly</option>
                 </select>
@@ -30,12 +30,12 @@
 
         <div class="small-12 medium-8 columns">
             <label>Hostname or IP
-                <input type="text" placeholder="host.domain.com" ng-model="form.host">
+                <input type="text" placeholder="host.domain.com" ng-model="form.host" required>
             </label>
         </div>
-        <div class="small-12 medium-4  columns" ng-model="form.port">
+        <div class="small-12 medium-4 columns">
             <label>Port number
-                <input type="number" placeholder="9990">
+                <input type="number" placeholder="9990" ng-model="form.port" required>
             </label>
             <p class="help-text">Usually 9990 for JBoss/Wildfly and 8080 for Tomcat.</p>
         </div>
