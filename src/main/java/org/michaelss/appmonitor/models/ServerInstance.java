@@ -6,6 +6,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class ServerInstance {
@@ -14,16 +17,22 @@ public class ServerInstance {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@NotBlank
+	@NotNull
 	private String description;
 	
+	@NotBlank
+	@NotNull
 	private String host;
 	
+	@NotNull
 	private Integer port;
 	
 	private String username;
 	
 	private String password;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private ServerType serverType;
 
