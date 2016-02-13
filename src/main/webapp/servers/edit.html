@@ -1,8 +1,8 @@
 <br>
 <div class="row">
     <div class="small-12 columns">
-        <h1>New server</h1>
-        <p class="subheader">Register a new application server.</p>
+        <h1>Edit server</h1>
+        <p class="subheader">Change information about an application server.</p>
     </div>
 </div>
 
@@ -11,8 +11,9 @@
     <hr>
 </div>
 
-<div class="row small-up-1 medium-up-2 large-up-3">
-    <form ng-submit="addServer()">
+<div class="row small-up-1 medium-up-2 large-up-3" ng-init="loadServer()">
+    <form ng-submit="editServer()">
+    	<input type="hidden" ng-model="form.id"/>
         <div class="small-12 medium-8 columns">
             <label>Description
                 <textarea placeholder="Briefly describe this server." ng-model="form.description" required></textarea>
@@ -42,13 +43,13 @@
 
         <div class="small-12 medium-6 columns">
             <label>Username
-                <input type="text" placeholder="" ng-model="form.username">
+                <input type="text" ng-model="form.username">
             </label>
             <p class="help-text">Management/JMX user. For Tomcat, this user needs the 'manager-script' role.</p>
         </div>
-        <div class="small-12 medium-6 columns" ng-model="form.password">
+        <div class="small-12 medium-6 columns">
             <label>Password
-                <input type="text" placeholder="">
+                <input type="text" ng-model="form.password">
             </label>
         </div>
 

@@ -14,7 +14,11 @@ appmonitor.config(['$routeProvider',
       }).
       when('/servers/new', {
           templateUrl: 'servers/new.html',
-          controller: 'ServersNewCtrl'
+          controller: 'ServersCtrl'
+      }).
+      when('/servers/edit/:serverId', {
+          templateUrl: 'servers/edit.html',
+          controller: 'ServersCtrl'
       }).
       when('/servers/:serverId', {
           templateUrl: 'detail.html',
@@ -24,3 +28,21 @@ appmonitor.config(['$routeProvider',
         redirectTo: '/servers'
       });
   }]);
+
+appmonitor.factory("flash", function($rootScope) {
+	  var queue = [];
+	  var currentMessage = "";
+
+	  $rootScope.$on("$routeChangeSuccess", function() {
+	    currentMessage = queue.shift() || "";
+	  });
+
+	  return {
+	    setMessage: function(message) {
+	      queue.push(message);
+	    },
+	    getMessage: function() {
+	      return currentMessage;
+	    }
+	  };
+	});
