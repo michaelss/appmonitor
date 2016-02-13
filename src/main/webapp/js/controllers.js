@@ -48,6 +48,15 @@ controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash',
 					console.log('erro.');
 				});
 			};
+			
+			$scope.removeServer = function() {
+				$http.post('services/servers/remove', $scope.form.id).then(function successCallback(response) {
+					flash.setMessage('The server was removed.');
+					$location.path('/servers');
+				}, function errorCallback(response) { 
+					console.log('erro.');
+				});
+			}
 		} ]);
 
 controllers.controller('ServerDetailCtrl', [ '$scope', '$routeParams',
