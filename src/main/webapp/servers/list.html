@@ -1,7 +1,7 @@
 <div class="row column" ng-show="flash.getMessage()">
 	<br>
-	<div class="success callout" data-closable>
-		<p>{{flash.getMessage()}}</p>
+	<div class="{{flash.getMessage().status}} callout" data-closable>
+		<p>{{flash.getMessage().text}}</p>
 	</div>
 </div>
 

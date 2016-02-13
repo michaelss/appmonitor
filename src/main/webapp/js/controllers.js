@@ -21,21 +21,21 @@ controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash',
 				}
 				else {
 					$http.get('services/servers/' + server.id + '/apps').then(function successCallback(response) {
-						console.log(JSON.stringify(response));
 						if (response.status == 204) {
 							server.loadAppsErrorMessage = 'There was a problem trying to contact server.';
 						}
 						else {
 							server.apps = response.data;
 						}
-//						server.viewHideAppsLabel = (server.visible) ? "Hide apps" : "View apps";
+					}, function errorCallback(response) { 
+						server.loadAppsErrorMessage = 'There was a problem trying to contact server.';
 					});
 				}
 			};
 
 			$scope.addServer = function() {
 				$http.post('services/servers/', $scope.form).then(function successCallback(response) {
-					flash.setMessage('The server was added.');
+					flash.setMessage({'text': 'The server was added.', 'status': 'success'});
 					$location.path('/servers');
 				}, function errorCallback(response) { 
 					console.log('erro.');
@@ -44,23 +44,32 @@ controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash',
 			
 			$scope.loadServer = function() {
 				$http.get('services/servers/' + $routeParams.serverId).then(function successCallback(response) {
-					// TODO: handle id not found.
-					$scope.form = response.data;
+					if (response.status == 204) {
+						flash.setMessage({'text': 'The server was not found.', 'status': 'alert'});
+						$location.path('/servers');
+					}
+					else {
+						$scope.form = response.data;
+					}
+				}, function errorCallback(response) { 
+					flash.setMessage({'text': 'There was a problem loading the server.', 'status': 'alert'});
+					$location.path('/servers');
 				});
 			};
 
 			$scope.editServer = function() {
 				$http.post('services/servers/edit', $scope.form).then(function successCallback(response) {
-					flash.setMessage('The server information was updated.');
+					flash.setMessage({'text': 'The server information was updated.', 'status': 'success'});
 					$location.path('/servers');
 				}, function errorCallback(response) { 
-					console.log('erro.');
+					// TODO: find a good way to show error messages in the same page.
+					// $scope.localMessage
 				});
 			};
 			
 			$scope.removeServer = function() {
 				$http.post('services/servers/remove', $scope.form.id).then(function successCallback(response) {
-					flash.setMessage('The server was removed.');
+					flash.setMessage({'text': 'The server was removed.', 'status': 'success'});
 					$location.path('/servers');
 				}, function errorCallback(response) { 
 					console.log('erro.');
