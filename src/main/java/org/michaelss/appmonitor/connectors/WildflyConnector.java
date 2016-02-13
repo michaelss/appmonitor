@@ -53,7 +53,7 @@ public class WildflyConnector implements ServerConnector {
 			
 		} catch (MalformedObjectNameException | AttributeNotFoundException | InstanceNotFoundException | MBeanException
 				| ReflectionException | UnresolvedAddressException | IOException e) {
-			System.out.println(String.format("Error in %s: %s - %s", this.getClass(), e.getClass(), e.getMessage()));
+			System.out.println(String.format("Error in %s: %s. Message: %s", this.getClass(), e.getClass(), e.getMessage()));
 			return null;
 		}
 	}

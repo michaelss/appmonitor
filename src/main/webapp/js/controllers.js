@@ -15,7 +15,11 @@ controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash',
 			};
 			
 			$scope.loadApps = function(server){
-				if (server.apps == null) {
+				if (server.apps || server.loadAppsErrorMessage) {
+					server.apps = false;
+					server.loadAppsErrorMessage = null;
+				}
+				else {
 					$http.get('services/servers/' + server.id + '/apps').then(function successCallback(response) {
 						console.log(JSON.stringify(response));
 						if (response.status == 204) {
@@ -23,7 +27,6 @@ controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash',
 						}
 						else {
 							server.apps = response.data;
-							server.visible = !server.visible;
 						}
 //						server.viewHideAppsLabel = (server.visible) ? "Hide apps" : "View apps";
 					});
