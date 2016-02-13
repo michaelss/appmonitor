@@ -34,6 +34,7 @@
 				<span class="float-right"><a href="#/servers/edit/{{server.id}}"><i
 						class="fi-pencil"></i> Edit</a> </span>
 			</p>
+			<p style="color: red;" ng-show="server.loadAppsErrorMessage">{{server.loadAppsErrorMessage}}</p>
 			<table style="width: 100%;" ng-show="server.visible">
 				<thead>
 					<tr>

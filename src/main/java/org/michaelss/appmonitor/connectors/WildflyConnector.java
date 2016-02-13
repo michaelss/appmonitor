@@ -1,6 +1,7 @@
 package org.michaelss.appmonitor.connectors;
 
 import java.io.IOException;
+import java.nio.channels.UnresolvedAddressException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -51,8 +52,8 @@ public class WildflyConnector implements ServerConnector {
 			return apps;
 			
 		} catch (MalformedObjectNameException | AttributeNotFoundException | InstanceNotFoundException | MBeanException
-				| ReflectionException | IOException e) {
-			e.printStackTrace();
+				| ReflectionException | UnresolvedAddressException | IOException e) {
+			System.out.println(String.format("Error in %s: %s - %s", this.getClass(), e.getClass(), e.getMessage()));
 			return null;
 		}
 	}

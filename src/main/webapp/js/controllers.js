@@ -17,11 +17,17 @@ controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash',
 			$scope.loadApps = function(server){
 				if (server.apps == null) {
 					$http.get('services/servers/' + server.id + '/apps').then(function successCallback(response) {
-						server.apps = response.data;
+						console.log(JSON.stringify(response));
+						if (response.status == 204) {
+							server.loadAppsErrorMessage = 'There was a problem trying to contact server.';
+						}
+						else {
+							server.apps = response.data;
+							server.visible = !server.visible;
+						}
 //						server.viewHideAppsLabel = (server.visible) ? "Hide apps" : "View apps";
 					});
 				}
-				server.visible = !server.visible;
 			};
 
 			$scope.addServer = function() {
