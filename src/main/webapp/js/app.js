@@ -24,6 +24,10 @@ appmonitor.config(['$routeProvider',
           templateUrl: 'detail.html',
           controller: 'ServerDetailCtrl'
       }).
+      when('/login', {
+          templateUrl: 'login.html',
+          controller: 'LoginCtrl'
+      }).
       otherwise({
         redirectTo: '/servers'
       });

@@ -77,7 +77,7 @@ controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash',
 			}
 		} ]);
 
-controllers.controller('ServerDetailCtrl', [ '$scope', '$routeParams',
-		function($scope, $routeParams) {
-			$scope.serverId = $routeParams.serverId;
+controllers.controller('LoginCtrl', [ '$scope',
+		function($scope) {
+	
 		} ]);
