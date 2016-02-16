@@ -1,7 +1,15 @@
-var controllers = angular.module('appmonitorControllers', []);
+var module = angular.module('appmonitorControllers', []);
 
-controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$routeParams',
-		function($scope, $http, $location, flash, $routeParams) {
+module.controller('ApplicationCtrl', ['$scope', 'userService',
+                                      
+        function($scope, userService) {
+			
+			$scope.username = userService.username;
+			
+		} ]);
+
+module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$routeParams', 'userService',
+		function($scope, $http, $location, flash, $routeParams, userService) {
 			$scope.servers = [];
 			
 			$scope.flash = flash;
@@ -75,9 +83,29 @@ controllers.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash',
 					console.log('erro.');
 				});
 			}
+			
+			$scope.userHasPermission = function() {
+				return userService.isLogged;
+			};
+
 		} ]);
 
-controllers.controller('LoginCtrl', [ '$scope',
-		function($scope) {
+module.controller('LoginCtrl', [ '$scope', 'userService', '$location', 
+		function($scope, userService, $location) {
 	
+			$scope.form = {};
+	
+			$scope.login = function() {
+				userService.isLogged = true;
+				userService.username = $scope.form.username;
+				
+				$location.path('/servers');
+				
+//				$http.post('services/login', $scope.form).then(function successCallback(response) {
+//					$location.path('/servers');
+//				}, function errorCallback(response) { 
+//					// TODO: find a good way to show error messages in the same page.
+//					// $scope.localMessage
+//				});
+			};
 		} ]);

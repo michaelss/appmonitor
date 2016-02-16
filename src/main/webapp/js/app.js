@@ -20,13 +20,10 @@ appmonitor.config(['$routeProvider',
           templateUrl: 'servers/edit.html',
           controller: 'ServersCtrl'
       }).
-      when('/servers/:serverId', {
-          templateUrl: 'detail.html',
-          controller: 'ServerDetailCtrl'
-      }).
       when('/login', {
           templateUrl: 'login.html',
-          controller: 'LoginCtrl'
+          controller: 'LoginCtrl',
+          access: { isFree: true }
       }).
       otherwise({
         redirectTo: '/servers'
@@ -50,3 +47,11 @@ appmonitor.factory("flash", function($rootScope) {
 	    }
 	  };
 	});
+
+appmonitor.factory('userService', [function() {
+	  var sdo = {
+	    isLogged: false,
+	    username: ''
+	  };
+	  return sdo;
+	}]);
