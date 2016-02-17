@@ -1,15 +1,33 @@
 var module = angular.module('appmonitorControllers', []);
 
-module.controller('ApplicationCtrl', ['$scope', 'userService',
+module.controller('ApplicationCtrl', ['$scope', '$location', 'userService',
                                       
-        function($scope, userService) {
+        function($scope, $location, userService) {
+	
+			$scope.$on('user.logged', function(event) {
+				$scope.username = sessionStorage['username'];
+			});
+	
+			$scope.$on('user.logout', function(event) {
+				$scope.username = sessionStorage['username'];
+			});
 			
-			$scope.username = userService.username;
+			$scope.username = sessionStorage['username'];
+			
+			$scope.userIsLogged = function() {
+				return !!$scope.username;
+			};
+			
+			$scope.logout = function() {
+				userService.logout();
+				$location.path('/servers');
+			}
 			
 		} ]);
 
 module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$routeParams', 'userService',
 		function($scope, $http, $location, flash, $routeParams, userService) {
+
 			$scope.servers = [];
 			
 			$scope.flash = flash;
@@ -83,22 +101,18 @@ module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$ro
 					console.log('erro.');
 				});
 			}
-			
-			$scope.userHasPermission = function() {
-				return userService.isLogged;
-			};
-
+		
 		} ]);
 
-module.controller('LoginCtrl', [ '$scope', 'userService', '$location', 
-		function($scope, userService, $location) {
+module.controller('LoginCtrl', [ '$scope', '$location', 'userService',
+		function($scope, $location, userService) {
 	
 			$scope.form = {};
 	
 			$scope.login = function() {
-				userService.isLogged = true;
-				userService.username = $scope.form.username;
-				
+				userService.setUser($scope.form.username);
+//				$scope.setUsername($scope.form.username);
+//				sessionStorage['username'] = $scope.form.username; 
 				$location.path('/servers');
 				
 //				$http.post('services/login', $scope.form).then(function successCallback(response) {

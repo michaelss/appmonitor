@@ -48,10 +48,21 @@ appmonitor.factory("flash", function($rootScope) {
 	  };
 	});
 
-appmonitor.factory('userService', [function() {
-	  var sdo = {
-	    isLogged: false,
-	    username: ''
-	  };
-	  return sdo;
-	}]);
+appmonitor.factory('userService', [ '$rootScope', function($rootScope) {
+	var userService = {
+			username: null,
+			
+			setUser: function(username) {
+				userService.username = sessionStorage['username'] = username;
+				$rootScope.$broadcast('user.logged')
+			},
+			
+			logout: function() {
+				userService.username = null;
+				delete sessionStorage['username'];
+				$rootScope.$broadcast('user.logout')
+			}
+	};
+	
+	return userService;
+}]);

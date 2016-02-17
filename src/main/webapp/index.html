@@ -25,9 +25,10 @@
 		</div>
 		<div class="top-bar-right">
 			<ul class="menu">
-				<li><a href="#">{{username}}</a></li>
+				<li ng-if="userIsLogged()"><a href="#"><i class="fi-torso"></i>{{username}}</a></li>
 				<li><a href="#">Configuration</a></li>
-				<li><a href="#/login" class="hollow button">Login</a></li>
+				<li ng-if="!userIsLogged()"><a href="#/login" class="hollow button">Login</a></li>
+				<li ng-if="userIsLogged()"><a ng-click="logout()" href="#" class="hollow button">Logout</a></li>
 			</ul>
 		</div>
 	</div>
