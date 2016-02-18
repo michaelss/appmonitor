@@ -20,8 +20,10 @@ module.controller('ApplicationCtrl', ['$scope', '$rootScope', '$location', '$htt
 				$location.path('/servers');
 			}
 			
-			$rootScope.$on("$routeChangeStart", function() {
-			    $scope.verifySession();
+			$rootScope.$on("$routeChangeStart", function(event, next, current) {
+				if (next.$$route !== undefined && next.$$route.originalPath != '/login') {
+					$scope.verifySession();
+				}
 			});
 			
 			$scope.verifySession = function() {
@@ -113,8 +115,8 @@ module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$ro
 		
 		} ]);
 
-module.controller('LoginCtrl', [ '$scope', '$location',
-		function($scope, $location) {
+module.controller('LoginCtrl', [ '$scope', '$location', '$http',
+		function($scope, $location, $http) {
 	
 			$scope.form = {};
 	

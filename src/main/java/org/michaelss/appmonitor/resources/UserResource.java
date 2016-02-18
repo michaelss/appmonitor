@@ -1,7 +1,7 @@
 package org.michaelss.appmonitor.resources;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.FormParam;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,7 +20,7 @@ public class UserResource {
 	@Path("/isAuthorized/{username}")
 	public Response isAuthorized(@PathParam("username") String username, @Context HttpServletRequest request) {
 		
-		if (request.getSession().getAttribute("username") != null) {
+		if (request.getSession().getAttribute("username") == null) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			return Response.ok().build();
@@ -29,7 +29,7 @@ public class UserResource {
 
 	@POST
 	@Path("/authenticate")
-	public Response authenticate(@FormParam("username") String username, @FormParam("password") String password,
+	public Response authenticate(@NotNull String username, @NotNull String password,
 			@Context HttpServletRequest request) {
 		
 		if (username.equals("michael")) {
