@@ -22,8 +22,7 @@ appmonitor.config(['$routeProvider',
       }).
       when('/login', {
           templateUrl: 'login.html',
-          controller: 'LoginCtrl',
-          access: { isFree: true }
+          controller: 'LoginCtrl'
       }).
       otherwise({
         redirectTo: '/servers'

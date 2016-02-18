@@ -13,7 +13,7 @@
 			deployed apps.</p>
 	</div>
 	<div class="small-3 columns">
-		<a ng-show="username" href="#/servers/new" class="button hollow float-right"><i
+		<a ng-if="userIsLogged()"href="#/servers/new" class="button hollow float-right"><i
 			class="fi-plus"></i> Add server</a>
 	</div>
 </div>
@@ -34,7 +34,7 @@
 					ng-click="loadApps(server)"> <i class="fi-list"></i> View apps
 				</a></span> <span ng-show="server.apps || server.loadAppsErrorMessage"><a
 					ng-click="loadApps(server)"> <i class="fi-list"></i> Hide apps
-				</a></span> <span class="float-right"><a
+				</a></span> <span ng-if="userIsLogged()" class="float-right"><a
 					href="#/servers/edit/{{server.id}}"><i class="fi-pencil"></i>
 						Edit</a> </span>
 			</p>

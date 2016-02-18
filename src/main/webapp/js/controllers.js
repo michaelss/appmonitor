@@ -1,26 +1,35 @@
 var module = angular.module('appmonitorControllers', []);
 
-module.controller('ApplicationCtrl', ['$scope', '$location', 'userService',
+module.controller('ApplicationCtrl', ['$scope', '$rootScope', '$location', '$http',
                                       
-        function($scope, $location, userService) {
+        function($scope, $rootScope, $location, $http) {
 	
-			$scope.$on('user.logged', function(event) {
-				$scope.username = sessionStorage['username'];
-			});
-	
-			$scope.$on('user.logout', function(event) {
-				$scope.username = sessionStorage['username'];
-			});
-			
 			$scope.username = sessionStorage['username'];
+	
+			$scope.setUsername = function(username) {
+				$scope.username = sessionStorage['username'] = username;
+			};
 			
 			$scope.userIsLogged = function() {
 				return !!$scope.username;
 			};
 			
 			$scope.logout = function() {
-				userService.logout();
+				$scope.username = null;
+				delete sessionStorage['username'];
 				$location.path('/servers');
+			}
+			
+			$rootScope.$on("$routeChangeStart", function() {
+			    $scope.verifySession();
+			});
+			
+			$scope.verifySession = function() {
+				$http.get('services/users/isAuthorized/' + $scope.username).then(function successCallback(response) {
+				}, function errorCallback(response) {
+					$scope.logout();
+					$location.path('/servers');
+				});
 			}
 			
 		} ]);
@@ -104,22 +113,19 @@ module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$ro
 		
 		} ]);
 
-module.controller('LoginCtrl', [ '$scope', '$location', 'userService',
-		function($scope, $location, userService) {
+module.controller('LoginCtrl', [ '$scope', '$location',
+		function($scope, $location) {
 	
 			$scope.form = {};
 	
 			$scope.login = function() {
-				userService.setUser($scope.form.username);
-//				$scope.setUsername($scope.form.username);
-//				sessionStorage['username'] = $scope.form.username; 
-				$location.path('/servers');
 				
-//				$http.post('services/login', $scope.form).then(function successCallback(response) {
-//					$location.path('/servers');
-//				}, function errorCallback(response) { 
-//					// TODO: find a good way to show error messages in the same page.
-//					// $scope.localMessage
-//				});
+				$http.post('services/users/authenticate', $scope.form).then(function successCallback(response) {
+					$scope.setUsername($scope.form.username);
+					$location.path('/servers');
+				}, function errorCallback(response) { 
+					// TODO: find a good way to show error messages in the same page.
+					// $scope.localMessage
+				});
 			};
 		} ]);
