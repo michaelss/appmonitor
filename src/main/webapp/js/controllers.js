@@ -17,6 +17,7 @@ module.controller('ApplicationCtrl', ['$scope', '$rootScope', '$location', '$htt
 			$scope.logout = function() {
 				$scope.username = null;
 				delete sessionStorage['username'];
+				$http.get('services/users/invalidate');
 				$location.path('/servers');
 			}
 			
