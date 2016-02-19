@@ -1,0 +1,42 @@
+<div class="row column" ng-show="flash.getMessage()">
+	<br>
+	<div class="{{flash.getMessage().status}} callout" data-closable>
+		<p>{{flash.getMessage().text}}</p>
+	</div>
+</div>
+
+<br>
+<div class="row" ng-init="loadUsers()">
+	<div class="small-9 columns">
+		<h1>Users</h1>
+		<p class="subheader">Here you can view the registered users.</p>
+	</div>
+	<div class="small-3 columns">
+		<a ng-if="userIsLogged()"href="#/users/new" class="button hollow float-right"><i
+			class="fi-plus"></i> Add user</a>
+	</div>
+</div>
+
+
+<div class="row column">
+	<hr>
+</div>
+
+<div class="row small-up-1 medium-up-2 large-up-3">
+	<div class="column">
+		<table style="width: 100%;">
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>Fullname</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in users">
+					<td>{{user.username}}</td>
+					<td>{{user.fullname}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

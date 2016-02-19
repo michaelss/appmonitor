@@ -37,8 +37,8 @@ module.controller('ApplicationCtrl', ['$scope', '$rootScope', '$location', '$htt
 			
 		} ]);
 
-module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$routeParams', 'userService',
-		function($scope, $http, $location, flash, $routeParams, userService) {
+module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$routeParams',
+		function($scope, $http, $location, flash, $routeParams) {
 
 			$scope.servers = [];
 			
@@ -116,19 +116,35 @@ module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$ro
 		
 		} ]);
 
-module.controller('LoginCtrl', [ '$scope', '$location', '$http',
+module.controller('UsersCtrl', [ '$scope', '$location', '$http',
 		function($scope, $location, $http) {
+	
+			$scope.users = [];
 	
 			$scope.form = {};
 	
 			$scope.login = function() {
-				
 				$http.post('services/users/authenticate', $scope.form).then(function successCallback(response) {
 					$scope.setUsername($scope.form.username);
 					$location.path('/servers');
 				}, function errorCallback(response) { 
 					// TODO: find a good way to show error messages in the same page.
 					// $scope.localMessage
+				});
+			};
+			
+			$scope.loadUsers = function() {
+				$http.get('services/users').then(function successCallback(response) {
+					$scope.users = response.data;
+				});
+			};
+			
+			$scope.addServer = function() {
+				$http.post('services/users', $scope.form).then(function successCallback(response) {
+					flash.setMessage({'text': 'The user was added.', 'status': 'success'});
+					$location.path('/servers');
+				}, function errorCallback(response) { 
+					console.log('erro.');
 				});
 			};
 		} ]);

@@ -40,15 +40,14 @@ public class ServerInstanceResource {
 		try {
 			return manager.createQuery("from ServerInstance s where s.id = :id", ServerInstance.class)
 					.setParameter("id", id).getSingleResult();
-		}
-		catch (NoResultException ex) {
+		} catch (NoResultException ex) {
 			return null;
 		}
 	}
 
 	@POST
 	@Transactional
-	public void post(ServerInstance server) {
+	public void add(ServerInstance server) {
 		manager.persist(server);
 	}
 

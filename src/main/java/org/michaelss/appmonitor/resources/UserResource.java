@@ -1,6 +1,12 @@
 package org.michaelss.appmonitor.resources;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,14 +18,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.michaelss.appmonitor.dtos.BasicUserDTO;
+import org.michaelss.appmonitor.models.User;
+
 @Path("users")
 @Produces(MediaType.TEXT_PLAIN)
 public class UserResource {
 
+	@PersistenceContext
+	private EntityManager manager;
+
 	@GET
 	@Path("/isAuthorized/{username}")
 	public Response isAuthorized(@PathParam("username") String username, @Context HttpServletRequest request) {
-		
+
 		if (request.getSession().getAttribute("username") == null) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
@@ -31,12 +43,16 @@ public class UserResource {
 	@Path("/authenticate")
 	public Response authenticate(@NotNull String username, @NotNull String password,
 			@Context HttpServletRequest request) {
-		
-		if (username.equals("michael")) {
-			return Response.status(Status.UNAUTHORIZED).build();
-		} else {
-			request.getSession().setAttribute("username", username);
+
+		try {
+			 manager.createQuery("from User u where lower(u.username) = :username and lower(u.password) = :password",
+							User.class)
+					.setParameter("username", username.toLowerCase()).setParameter("password", password.toLowerCase())
+					.getSingleResult();
+			 request.getSession().setAttribute("username", username);
 			return Response.ok().build();
+		} catch (NoResultException ex) {
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 	}
 
@@ -44,5 +60,20 @@ public class UserResource {
 	@Path("/invalidate")
 	public void invalidate(@Context HttpServletRequest request) {
 		request.getSession().invalidate();
+	}
+	
+	@GET
+	public List<BasicUserDTO> list() {
+		return manager.createQuery(
+						"select new org.michaelss.appmonitor.dtos.BasicUserDTO(u.id, u.username, "
+								+ "u.fullname) from User as u",
+						BasicUserDTO.class)
+				.getResultList();
+	}
+
+	@POST
+	@Transactional
+	public void add(User user) {
+		manager.persist(user);
 	}
 }
