@@ -22,19 +22,21 @@
 	<hr>
 </div>
 
-<div class="row small-up-1 medium-up-2 large-up-3">
+<div class="row small-up-1 medium-up-12">
 	<div class="column">
 		<table style="width: 100%;">
 			<thead>
 				<tr>
 					<th>Username</th>
-					<th>Fullname</th>
+					<th>Full Name</th>
+					<th>Options</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="user in users">
 					<td>{{user.username}}</td>
 					<td>{{user.fullname}}</td>
+					<td><a href="#/users/edit/{{user.id}}"><i class="fi-pencil"></i> Edit</a></td>
 				</tr>
 			</tbody>
 		</table>

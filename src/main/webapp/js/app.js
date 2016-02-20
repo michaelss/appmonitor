@@ -32,6 +32,10 @@ appmonitor.config(['$routeProvider',
           templateUrl: 'users/new.html',
           controller: 'UsersCtrl'
       }).
+      when('/users/edit/:userId', {
+          templateUrl: 'users/edit.html',
+          controller: 'UsersCtrl'
+      }).
       otherwise({
         redirectTo: '/servers'
       });

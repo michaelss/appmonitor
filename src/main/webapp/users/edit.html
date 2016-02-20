@@ -1,8 +1,8 @@
 <br>
 <div class="row">
     <div class="small-12 columns">
-        <h1>New user</h1>
-        <p class="subheader">Add a new user who can manage the system.</p>
+        <h1>Edit user</h1>
+        <p class="subheader">Change information about an user.</p>
     </div>
 </div>
 
@@ -11,8 +11,9 @@
     <hr>
 </div>
 
-<div class="row small-up-1 medium-up-2 large-up-3">
-    <form ng-submit="addUser()">
+<div class="row small-up-1 medium-up-2 large-up-3" ng-init="loadUser()">
+    <form ng-submit="editUser()">
+    	<input type="hidden" ng-model="form.id"/>
         <div class="small-12 medium-6 columns">
             <label>Username
                 <input type="text" ng-model="form.username" required>
@@ -20,8 +21,9 @@
         </div>
         <div class="small-12 medium-6 columns">
             <label>Password
-                <input type="password" ng-model="form.password" required>
+                <input type="password" ng-model="form.password">
             </label>
+            <p class="help-text">Let this field blank to not change the password.</p>
         </div>
 
         <div class="small-12 columns">

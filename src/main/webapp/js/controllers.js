@@ -126,7 +126,7 @@ module.controller('ServersCtrl',
 		});
 
 module.controller('UsersCtrl',
-		function($scope, $location, $http, $timeout, messageDelay) {
+		function($scope, $location, $http, $timeout, $routeParams, messageDelay, flash) {
 	
 			$scope.users = [];
 	
@@ -149,6 +149,31 @@ module.controller('UsersCtrl',
 			$scope.loadUsers = function() {
 				$http.get('services/users').then(function successCallback(response) {
 					$scope.users = response.data;
+				});
+			};
+			
+			$scope.loadUser = function() {
+				$http.get('services/users/' + $routeParams.userId).then(function successCallback(response) {
+					if (response.status == 204) {
+						flash.setMessage({'text': 'The user was not found.', 'status': 'alert'});
+						$location.path('/users');
+					}
+					else {
+						$scope.form = response.data;
+					}
+				}, function errorCallback(response) { 
+					flash.setMessage({'text': 'There was a problem loading the user.', 'status': 'alert'});
+					$location.path('/users');
+				});
+			};
+			
+			$scope.editUser = function() {
+				$http.post('services/users/edit', $scope.form).then(function successCallback(response) {
+					flash.setMessage({'text': 'The user information was updated.', 'status': 'success'});
+					$location.path('/users');
+				}, function errorCallback(response) { 
+					$scope.setMessage({'text': 'Error editing user information.', 'status': 'alert'});
+					$timeout(function() { $scope.setMessage('')}, 5000);
 				});
 			};
 			

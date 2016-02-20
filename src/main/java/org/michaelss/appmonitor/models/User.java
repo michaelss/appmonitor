@@ -19,8 +19,6 @@ public class User {
 	@NotNull
 	private String username;
 	
-	@NotBlank
-	@NotNull
 	private String password;
 
 	@NotBlank
