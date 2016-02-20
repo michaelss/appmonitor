@@ -5,6 +5,12 @@ module.controller('ApplicationCtrl', ['$scope', '$rootScope', '$location', '$htt
         function($scope, $rootScope, $location, $http) {
 	
 			$scope.username = sessionStorage['username'];
+			
+			$scope.message = '';
+			
+			$scope.setMessage = function(message) {
+				$scope.message = message;
+			}
 	
 			$scope.setUsername = function(username) {
 				$scope.username = sessionStorage['username'] = username;
@@ -101,8 +107,8 @@ module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$ro
 					flash.setMessage({'text': 'The server information was updated.', 'status': 'success'});
 					$location.path('/servers');
 				}, function errorCallback(response) { 
-					// TODO: find a good way to show error messages in the same page.
-					// $scope.localMessage
+					$scope.setMessage({'text': 'Error editing server information.', 'status': 'alert'});
+					$timeout(function() { $scope.setMessage('')}, 5000);
 				});
 			};
 			
@@ -111,14 +117,15 @@ module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$ro
 					flash.setMessage({'text': 'The server was removed.', 'status': 'success'});
 					$location.path('/servers');
 				}, function errorCallback(response) { 
-					console.log('erro.');
+					$scope.setMessage({'text': 'Error removing server.', 'status': 'alert'});
+					$timeout(function() { $scope.setMessage('')}, 5000);
 				});
 			}
 		
 		} ]);
 
-module.controller('UsersCtrl', [ '$scope', '$location', '$http',
-		function($scope, $location, $http) {
+module.controller('UsersCtrl', [ '$scope', '$location', '$http', '$timeout',
+		function($scope, $location, $http, $timeout) {
 	
 			$scope.users = [];
 	
@@ -132,9 +139,9 @@ module.controller('UsersCtrl', [ '$scope', '$location', '$http',
 				}).then(function successCallback(response) {
 					$scope.setUsername($scope.form.username);
 					$location.path('/servers');
-				}, function errorCallback(response) { 
-					// TODO: find a good way to show error messages in the same page.
-					// $scope.localMessage
+				}, function errorCallback(response) {
+					$scope.setMessage({'text': 'Wrong username or password.', 'status': 'alert'});
+					$timeout(function() { $scope.setMessage('')}, 5000);
 				});
 			};
 			

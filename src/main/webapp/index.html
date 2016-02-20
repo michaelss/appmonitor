@@ -32,6 +32,20 @@
 			</ul>
 		</div>
 	</div>
+	
+	<div class="row column" ng-if="flash.getMessage()">
+		<br>
+		<div class="{{flash.getMessage().status}} callout" data-closable>
+			<p>{{flash.getMessage().text}}</p>
+		</div>
+	</div>
+	
+	<div class="row column" ng-if="message">
+		<br>
+		<div class="{{message.status}} callout" data-closable>
+			<p>{{message.text}}</p>
+		</div>
+	</div>
 
 	<div ng-view></div>
 
