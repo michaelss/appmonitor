@@ -1,7 +1,8 @@
 var module = angular.module('appmonitorControllers', []);
 
-module.controller('ApplicationCtrl', ['$scope', '$rootScope', '$location', '$http',
-                                      
+module.constant('messageDelay', 5000);
+
+module.controller('ApplicationCtrl',
         function($scope, $rootScope, $location, $http) {
 	
 			$scope.username = sessionStorage['username'];
@@ -42,9 +43,9 @@ module.controller('ApplicationCtrl', ['$scope', '$rootScope', '$location', '$htt
 				});
 			}
 			
-		} ]);
+		});
 
-module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$routeParams',
+module.controller('ServersCtrl',
 		function($scope, $http, $location, flash, $routeParams) {
 
 			$scope.servers = [];
@@ -122,10 +123,10 @@ module.controller('ServersCtrl', [ '$scope', '$http', '$location', 'flash', '$ro
 				});
 			}
 		
-		} ]);
+		});
 
-module.controller('UsersCtrl', [ '$scope', '$location', '$http', '$timeout',
-		function($scope, $location, $http, $timeout) {
+module.controller('UsersCtrl',
+		function($scope, $location, $http, $timeout, messageDelay) {
 	
 			$scope.users = [];
 	
@@ -141,7 +142,7 @@ module.controller('UsersCtrl', [ '$scope', '$location', '$http', '$timeout',
 					$location.path('/servers');
 				}, function errorCallback(response) {
 					$scope.setMessage({'text': 'Wrong username or password.', 'status': 'alert'});
-					$timeout(function() { $scope.setMessage('')}, 5000);
+					$timeout(function() { $scope.setMessage('')}, messageDelay);
 				});
 			};
 			
@@ -159,4 +160,4 @@ module.controller('UsersCtrl', [ '$scope', '$location', '$http', '$timeout',
 					console.log('erro.');
 				});
 			};
-		} ]);
+		});
