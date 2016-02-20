@@ -21,15 +21,15 @@ appmonitor.config(['$routeProvider',
           controller: 'ServersCtrl'
       }).
       when('/users/login', {
-          templateUrl: '/users/login.html',
+          templateUrl: 'users/login.html',
           controller: 'UsersCtrl'
       }).
       when('/users', {
-          templateUrl: '/users/list.html',
+          templateUrl: 'users/list.html',
           controller: 'UsersCtrl'
       }).
       when('/users/new', {
-          templateUrl: '/users/new.html',
+          templateUrl: 'users/new.html',
           controller: 'UsersCtrl'
       }).
       otherwise({

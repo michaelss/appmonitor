@@ -22,7 +22,8 @@ module.controller('ApplicationCtrl', ['$scope', '$rootScope', '$location', '$htt
 			}
 			
 			$rootScope.$on("$routeChangeStart", function(event, next, current) {
-				if (next.$$route !== undefined && next.$$route.originalPath != '/login') {
+				if (next.$$route !== undefined && next.$$route.originalPath != '/users/login'
+					&& next.$$route.originalPath != '/servers') {
 					$scope.verifySession();
 				}
 			});
@@ -124,7 +125,11 @@ module.controller('UsersCtrl', [ '$scope', '$location', '$http',
 			$scope.form = {};
 	
 			$scope.login = function() {
-				$http.post('services/users/authenticate', $scope.form).then(function successCallback(response) {
+				$http({method: 'POST', 
+					url: 'services/users/authenticate', 
+					data: $.param($scope.form),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function successCallback(response) {
 					$scope.setUsername($scope.form.username);
 					$location.path('/servers');
 				}, function errorCallback(response) { 
@@ -139,7 +144,7 @@ module.controller('UsersCtrl', [ '$scope', '$location', '$http',
 				});
 			};
 			
-			$scope.addServer = function() {
+			$scope.addUser = function() {
 				$http.post('services/users', $scope.form).then(function successCallback(response) {
 					flash.setMessage({'text': 'The user was added.', 'status': 'success'});
 					$location.path('/servers');
