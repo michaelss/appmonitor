@@ -1,5 +1,9 @@
 package org.michaelss.appmonitor.resources;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -20,7 +24,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.michaelss.appmonitor.dtos.BasicUserDTO;
-import org.michaelss.appmonitor.models.ServerInstance;
 import org.michaelss.appmonitor.models.User;
 
 @Path("users")
@@ -44,12 +47,14 @@ public class UserResource {
 	@POST
 	@Path("/authenticate")
 	public Response authenticate(@NotNull @FormParam("username") String username, @NotNull @FormParam("password") String password,
-			@Context HttpServletRequest request) {
+			@Context HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		
+		String hashPassword = getMD5(password);
 
 		try {
 			 manager.createQuery("from User u where lower(u.username) = :username and lower(u.password) = :password",
 							User.class)
-					.setParameter("username", username.toLowerCase()).setParameter("password", password.toLowerCase())
+					.setParameter("username", username).setParameter("password", hashPassword)
 					.getSingleResult();
 			 request.getSession().setAttribute("username", username);
 			return Response.ok().build();
@@ -88,13 +93,14 @@ public class UserResource {
 	@POST
 	@Transactional
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response add(User user) {
+	public Response add(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		List<User> existing = manager.createQuery("from User u where u.username = :username", User.class)
 				.setParameter("username", user.getUsername()).getResultList();
 		
 		if (existing != null && !existing.isEmpty()) {
 			return Response.status(Status.BAD_REQUEST).entity("Duplicated username.").build();
 		}
+		user.setPassword(getMD5(user.getPassword()));
 		manager.persist(user);
 		return Response.ok().build();
 	}
@@ -102,7 +108,7 @@ public class UserResource {
 	@POST
 	@Transactional
 	@Path("/edit")
-	public Response edit(User user) {
+	public Response edit(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		if (user.getPassword() == null || user.getPassword().isEmpty()) {
 			try {
 				User old = manager.find(User.class, user.getId());
@@ -110,9 +116,22 @@ public class UserResource {
 			} catch (IllegalArgumentException e) {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
+		} else {
+			user.setPassword(getMD5(user.getPassword()));
 		}
 		manager.merge(user);
 		return Response.ok().build();
+	}
+
+	private String getMD5(String text) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		byte[] textBytes = text.getBytes("UTF-8");
+		byte[] digest = MessageDigest.getInstance("MD5").digest(textBytes);
+		BigInteger bigInt = new BigInteger(1,digest);
+		String hashText = bigInt.toString(16);
+		while (hashText.length() < 32 ) {
+		  hashText = "0" + hashText;
+		}
+		return hashText;
 	}
 	
 	@POST
