@@ -102,7 +102,7 @@ public class UserResource {
 	@Transactional
 	@Path("/edit")
 	public Response edit(User user) {
-		if (user.getPassword() != null) {
+		if (user.getPassword() == null || user.getPassword().isEmpty()) {
 			try {
 				User old = manager.find(User.class, user.getId());
 				user.setPassword(old.getPassword());
@@ -112,5 +112,11 @@ public class UserResource {
 		}
 		manager.merge(user);
 		return Response.ok().build();
+	}
+
+	@GET
+	@Path("/all")
+	public List<User> listAll() {
+		return manager.createQuery("from User u", User.class).getResultList();
 	}
 }
