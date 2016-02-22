@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.michaelss.appmonitor.dtos.BasicUserDTO;
+import org.michaelss.appmonitor.models.ServerInstance;
 import org.michaelss.appmonitor.models.User;
 
 @Path("users")
@@ -112,6 +113,16 @@ public class UserResource {
 		}
 		manager.merge(user);
 		return Response.ok().build();
+	}
+	
+	@POST
+	@Transactional
+	@Path("/remove")
+	public void remove(@NotNull Integer id) {
+		User user = manager.find(User.class, id);
+		if (user != null) {
+			manager.remove(user);
+		}
 	}
 
 	@GET

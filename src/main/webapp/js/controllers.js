@@ -188,4 +188,14 @@ module.controller('UsersCtrl',
 					$timeout(function() { $scope.setMessage('')}, 5000);
 				});
 			};
+
+			$scope.removeUser = function() {
+				$http.post('services/users/remove', $scope.form.id).then(function successCallback(response) {
+					flash.setMessage({'text': 'The user was removed.', 'status': 'success'});
+					$location.path('/users');
+				}, function errorCallback(response) { 
+					$scope.setMessage({'text': 'Error removing user.', 'status': 'alert'});
+					$timeout(function() { $scope.setMessage('')}, 5000);
+				});
+			}
 		});
