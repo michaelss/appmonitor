@@ -52,7 +52,7 @@ public class UserResource {
 					.getSingleResult();
 			 request.getSession().setAttribute("username", username);
 			return Response.ok().build();
-		} catch (NoResultException ex) {
+		} catch (Exception ex) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 	}
@@ -86,8 +86,16 @@ public class UserResource {
 
 	@POST
 	@Transactional
-	public void add(User user) {
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response add(User user) {
+		List<User> existing = manager.createQuery("from User u where u.username = :username", User.class)
+				.setParameter("username", user.getUsername()).getResultList();
+		
+		if (existing != null && !existing.isEmpty()) {
+			return Response.status(Status.BAD_REQUEST).entity("Duplicated username.").build();
+		}
 		manager.persist(user);
+		return Response.ok().build();
 	}
 	
 	@POST

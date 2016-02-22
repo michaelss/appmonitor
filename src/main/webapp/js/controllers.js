@@ -128,6 +128,8 @@ module.controller('ServersCtrl',
 module.controller('UsersCtrl',
 		function($scope, $location, $http, $timeout, $routeParams, messageDelay, flash) {
 	
+			$scope.flash = flash;
+	
 			$scope.users = [];
 	
 			$scope.form = {};
@@ -180,9 +182,10 @@ module.controller('UsersCtrl',
 			$scope.addUser = function() {
 				$http.post('services/users', $scope.form).then(function successCallback(response) {
 					flash.setMessage({'text': 'The user was added.', 'status': 'success'});
-					$location.path('/servers');
+					$location.path('/users');
 				}, function errorCallback(response) { 
-					console.log('erro.');
+					$scope.setMessage({'text': 'Error creating user.', 'status': 'alert'});
+					$timeout(function() { $scope.setMessage('')}, 5000);
 				});
 			};
 		});
