@@ -8,20 +8,6 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
-	<!-- servlet>
-		<servlet-name>jsf</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>jsf</servlet-name>
-		<url-pattern>*.html</url-pattern>
-	</servlet-mapping>
-	<context-param>
-		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-		<param-value>client</param-value>
-	</context-param-->
-
 	<servlet>
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 	</servlet>
@@ -29,4 +15,27 @@
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
+	
+	<security-constraint>
+		<display-name>Management</display-name>
+		<web-resource-collection>
+			<web-resource-name>management</web-resource-name>
+			<url-pattern>/services/servers</url-pattern>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADMIN</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<role-name>ADMIN</role-name>
+	</security-role>
+	
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>
+			<form-error-page>/login.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
 </web-app>
