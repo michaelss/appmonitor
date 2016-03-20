@@ -26,7 +26,6 @@ import javax.ws.rs.core.Response.Status;
 import org.michaelss.appmonitor.dtos.BasicUserDTO;
 import org.michaelss.appmonitor.models.User;
 
-@Path("users")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
@@ -34,9 +33,9 @@ public class UserResource {
 	private EntityManager manager;
 
 	@GET
-	@Path("/isAuthorized/{username}")
+	@Path("/session/isAuthorized/{username}")
 	public Response isAuthorized(@PathParam("username") String username, @Context HttpServletRequest request) {
-
+		
 		if (request.getSession().getAttribute("username") == null) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
@@ -45,7 +44,7 @@ public class UserResource {
 	}
 
 	@POST
-	@Path("/authenticate")
+	@Path("/session/authenticate")
 	public Response authenticate(@NotNull @FormParam("username") String username, @NotNull @FormParam("password") String password,
 			@Context HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		
@@ -64,12 +63,13 @@ public class UserResource {
 	}
 
 	@GET
-	@Path("/invalidate")
+	@Path("/session/invalidate")
 	public void invalidate(@Context HttpServletRequest request) {
 		request.getSession().invalidate();
 	}
 	
 	@GET
+	@Path("users")
 	public List<BasicUserDTO> list() {
 		return manager.createQuery(
 						"select new org.michaelss.appmonitor.dtos.BasicUserDTO(u.id, u.username, "
@@ -79,7 +79,7 @@ public class UserResource {
 	}
 	
 	@GET
-	@Path("/{id}")
+	@Path("users/{id}")
 	public BasicUserDTO get(@NotNull @PathParam("id") Integer id) {
 		try {
 			return manager.createQuery("select new org.michaelss.appmonitor.dtos.BasicUserDTO(u.id, u.username, "
@@ -91,6 +91,7 @@ public class UserResource {
 	}
 
 	@POST
+	@Path("users")
 	@Transactional
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response add(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -107,7 +108,7 @@ public class UserResource {
 	
 	@POST
 	@Transactional
-	@Path("/edit")
+	@Path("users/edit")
 	public Response edit(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		if (user.getPassword() == null || user.getPassword().isEmpty()) {
 			try {
@@ -136,7 +137,7 @@ public class UserResource {
 	
 	@POST
 	@Transactional
-	@Path("/remove")
+	@Path("users/remove")
 	public void remove(@NotNull Integer id) {
 		User user = manager.find(User.class, id);
 		if (user != null) {
@@ -145,7 +146,7 @@ public class UserResource {
 	}
 
 	@GET
-	@Path("/all")
+	@Path("users/all")
 	public List<User> listAll() {
 		return manager.createQuery("from User u", User.class).getResultList();
 	}

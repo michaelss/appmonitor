@@ -24,7 +24,7 @@ module.controller('ApplicationCtrl',
 			$scope.logout = function() {
 				$scope.username = null;
 				delete sessionStorage['username'];
-				$http.get('services/users/invalidate');
+				$http.get('services/session/invalidate');
 				$location.path('/servers');
 			}
 			
@@ -36,7 +36,7 @@ module.controller('ApplicationCtrl',
 			});
 			
 			$scope.verifySession = function() {
-				$http.get('services/users/isAuthorized/' + $scope.username).then(function successCallback(response) {
+				$http.get('services/session/isAuthorized/' + $scope.username).then(function successCallback(response) {
 				}, function errorCallback(response) {
 					$scope.logout();
 					$location.path('/servers');
@@ -136,7 +136,7 @@ module.controller('UsersCtrl',
 	
 			$scope.login = function() {
 				$http({method: 'POST', 
-					url: 'services/users/authenticate', 
+					url: 'services/session/authenticate', 
 					data: $.param($scope.form),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}).then(function successCallback(response) {
