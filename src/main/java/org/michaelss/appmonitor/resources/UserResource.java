@@ -27,13 +27,14 @@ import org.michaelss.appmonitor.dtos.BasicUserDTO;
 import org.michaelss.appmonitor.models.User;
 
 @Produces(MediaType.APPLICATION_JSON)
+@Path("/")
 public class UserResource {
 
 	@PersistenceContext
 	private EntityManager manager;
 
 	@GET
-	@Path("/session/isAuthorized/{username}")
+	@Path("session/isAuthorized/{username}")
 	public Response isAuthorized(@PathParam("username") String username, @Context HttpServletRequest request) {
 		
 		if (request.getSession().getAttribute("username") == null) {
@@ -44,7 +45,7 @@ public class UserResource {
 	}
 
 	@POST
-	@Path("/session/authenticate")
+	@Path("session/authenticate")
 	public Response authenticate(@NotNull @FormParam("username") String username, @NotNull @FormParam("password") String password,
 			@Context HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		
@@ -63,7 +64,7 @@ public class UserResource {
 	}
 
 	@GET
-	@Path("/session/invalidate")
+	@Path("session/invalidate")
 	public void invalidate(@Context HttpServletRequest request) {
 		request.getSession().invalidate();
 	}
@@ -91,8 +92,8 @@ public class UserResource {
 	}
 
 	@POST
-	@Path("users")
 	@Transactional
+	@Path("users")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response add(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		List<User> existing = manager.createQuery("from User u where u.username = :username", User.class)

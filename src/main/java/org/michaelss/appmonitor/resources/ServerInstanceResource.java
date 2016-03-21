@@ -48,6 +48,8 @@ public class ServerInstanceResource {
 	@POST
 	@Transactional
 	public void add(ServerInstance server) {
+		System.out.println(server.getHost());
+		System.out.println(server.getPassword());
 		manager.persist(server);
 	}
 

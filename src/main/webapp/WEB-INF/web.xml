@@ -15,7 +15,14 @@
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
-	
+
+ 	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>public</web-resource-name>
+			<url-pattern>/services/session/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
 	<security-constraint>
 		<display-name>Users</display-name>
 		<web-resource-collection>
@@ -28,11 +35,11 @@
 			<http-method>HEAD</http-method>
 			<http-method>OPTIONS</http-method>
 		</web-resource-collection>
-		<auth-constraint>
+ 		<auth-constraint>
 			<role-name>ADMIN</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
+
 	<security-constraint>
 		<display-name>Servers</display-name>
 		<web-resource-collection>
@@ -44,20 +51,11 @@
 			<role-name>ADMIN</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>public</web-resource-name>
-			<url-pattern>/services/session/*</url-pattern>
-			<http-method>GET</http-method>
-			<http-method>POST</http-method>
-		</web-resource-collection>
-	</security-constraint>
-	
-	<security-role>
+
+ 	<security-role>
 		<role-name>ADMIN</role-name>
 	</security-role>
-	
+
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
