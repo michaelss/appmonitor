@@ -7,15 +7,16 @@
 		transaction-type="JTA">
 		<description>Appmonitor Persistence Unit</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+		<jta-data-source>java:jboss/datasources/appmonitorDS</jta-data-source>
 		<class>org.michaelss.appmonitor.models.ServerInstance</class>
 		<class>org.michaelss.appmonitor.models.User</class>
+		<class>org.michaelss.appmonitor.models.SystemRole</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.transaction.flush_before_completion"
 				value="true" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 		</properties>
 	</persistence-unit>
 

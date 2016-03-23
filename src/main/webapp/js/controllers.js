@@ -136,7 +136,7 @@ module.controller('UsersCtrl',
 	
 			$scope.login = function() {
 				$http({method: 'POST', 
-					url: 'services/session/authenticate', 
+					url: 'j_security_check', 
 					data: $.param($scope.form),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}).then(function successCallback(response) {
