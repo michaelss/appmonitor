@@ -55,6 +55,12 @@ public class UserResource {
 	}
 	
 	@GET
+	@Path("session/invalid")
+	public Response invalid() {
+		return Response.status(Status.FORBIDDEN).build();
+	}
+	
+	@GET
 	@Path("session")
 	public String session(@Context HttpServletRequest request) {
 		return (request.getUserPrincipal() == null) ? "vazio" : request.getUserPrincipal().getName();

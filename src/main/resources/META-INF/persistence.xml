@@ -10,7 +10,6 @@
 		<jta-data-source>java:jboss/datasources/inventoryDS</jta-data-source>
 		<class>org.michaelss.inventory.models.ServerInstance</class>
 		<class>org.michaelss.inventory.models.User</class>
-		<class>org.michaelss.inventory.models.SystemRole</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
