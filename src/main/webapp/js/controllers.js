@@ -1,4 +1,4 @@
-var module = angular.module('appmonitorControllers', []);
+var module = angular.module('appControllers', []);
 
 module.constant('messageDelay', 5000);
 

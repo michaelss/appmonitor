@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.connectors;
+package org.michaelss.inventory.connectors;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.michaelss.appmonitor.dtos.AppDTO;
+import org.michaelss.inventory.dtos.AppDTO;
 
 public class TomcatConnector implements ServerConnector {
 

@@ -1,6 +1,6 @@
-package org.michaelss.appmonitor.dtos;
+package org.michaelss.inventory.dtos;
 
-import org.michaelss.appmonitor.models.ServerType;
+import org.michaelss.inventory.models.ServerType;
 
 public class BasicServerInstanceDTO {
 

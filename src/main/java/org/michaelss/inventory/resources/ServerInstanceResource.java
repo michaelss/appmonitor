@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.resources;
+package org.michaelss.inventory.resources;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.michaelss.appmonitor.dtos.BasicServerInstanceDTO;
-import org.michaelss.appmonitor.models.ServerInstance;
+import org.michaelss.inventory.dtos.BasicServerInstanceDTO;
+import org.michaelss.inventory.models.ServerInstance;
 
 @Path("servers")
 @Produces({ MediaType.APPLICATION_JSON })
@@ -28,7 +28,7 @@ public class ServerInstanceResource {
 	public List<BasicServerInstanceDTO> list() {
 		return manager
 				.createQuery(
-						"select new org.michaelss.appmonitor.dtos.BasicServerInstanceDTO(s.id, s.description, "
+						"select new org.michaelss.inventory.dtos.BasicServerInstanceDTO(s.id, s.description, "
 								+ "s.host, s.port, s.serverType) from ServerInstance as s",
 						BasicServerInstanceDTO.class)
 				.getResultList();

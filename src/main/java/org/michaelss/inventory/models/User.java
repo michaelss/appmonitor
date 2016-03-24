@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.models;
+package org.michaelss.inventory.models;
 
 import java.util.ArrayList;
 import java.util.List;

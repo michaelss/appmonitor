@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.dtos;
+package org.michaelss.inventory.dtos;
 
 public class AppDTO {
 

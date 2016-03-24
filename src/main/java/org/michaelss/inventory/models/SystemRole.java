@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.models;
+package org.michaelss.inventory.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

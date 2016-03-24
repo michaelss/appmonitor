@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.resources;
+package org.michaelss.inventory.resources;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.michaelss.appmonitor.connectors.ServerConnector;
-import org.michaelss.appmonitor.dtos.AppDTO;
-import org.michaelss.appmonitor.models.ServerInstance;
+import org.michaelss.inventory.connectors.ServerConnector;
+import org.michaelss.inventory.dtos.AppDTO;
+import org.michaelss.inventory.models.ServerInstance;
 
 @Path("servers")
 @Produces({ MediaType.APPLICATION_JSON })

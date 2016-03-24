@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.resources;
+package org.michaelss.inventory.resources;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -23,8 +23,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.jboss.security.Base64Encoder;
-import org.michaelss.appmonitor.dtos.BasicUserDTO;
-import org.michaelss.appmonitor.models.User;
+import org.michaelss.inventory.dtos.BasicUserDTO;
+import org.michaelss.inventory.models.User;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/")
@@ -55,10 +55,17 @@ public class UserResource {
 	}
 	
 	@GET
+	@Path("session")
+	public String session(@Context HttpServletRequest request) {
+		return (request.getUserPrincipal() == null) ? "vazio" : request.getUserPrincipal().getName();
+	}
+	
+	
+	@GET
 	@Path("users")
 	public List<BasicUserDTO> list() {
 		return manager.createQuery(
-						"select new org.michaelss.appmonitor.dtos.BasicUserDTO(u.id, u.username, "
+						"select new org.michaelss.inventory.dtos.BasicUserDTO(u.id, u.username, "
 								+ "u.fullname) from User as u",
 						BasicUserDTO.class)
 				.getResultList();
@@ -68,7 +75,7 @@ public class UserResource {
 	@Path("users/{id}")
 	public BasicUserDTO get(@NotNull @PathParam("id") Integer id) {
 		try {
-			return manager.createQuery("select new org.michaelss.appmonitor.dtos.BasicUserDTO(u.id, u.username, "
+			return manager.createQuery("select new org.michaelss.inventory.dtos.BasicUserDTO(u.id, u.username, "
 								+ "u.fullname) from User u where u.id = :id", BasicUserDTO.class)
 					.setParameter("id", id).getSingleResult();
 		} catch (NoResultException ex) {

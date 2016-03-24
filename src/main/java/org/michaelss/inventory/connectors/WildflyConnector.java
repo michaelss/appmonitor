@@ -1,4 +1,4 @@
-package org.michaelss.appmonitor.connectors;
+package org.michaelss.inventory.connectors;
 
 import java.io.IOException;
 import java.nio.channels.UnresolvedAddressException;
@@ -20,7 +20,7 @@ import javax.management.remote.JMXServiceURL;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.michaelss.appmonitor.dtos.AppDTO;
+import org.michaelss.inventory.dtos.AppDTO;
 
 public class WildflyConnector implements ServerConnector {
 

@@ -1,11 +1,11 @@
 $(document).foundation();
 
-var appmonitor = angular.module('appmonitor', [
+var app = angular.module('inventory', [
   'ngRoute',
-  'appmonitorControllers'
+  'appControllers'
 ]);
 
-appmonitor.config(['$routeProvider',
+app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/servers', {
@@ -41,7 +41,7 @@ appmonitor.config(['$routeProvider',
       });
   }]);
 
-appmonitor.factory("flash", function($rootScope) {
+app.factory("flash", function($rootScope) {
 	  var queue = [];
 	  var currentMessage = "";
 

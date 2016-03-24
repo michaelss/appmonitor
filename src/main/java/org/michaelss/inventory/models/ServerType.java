@@ -1,9 +1,9 @@
-package org.michaelss.appmonitor.models;
+package org.michaelss.inventory.models;
 
 public enum ServerType {
 
-	TOMCAT ("tomcat", "org.michaelss.appmonitor.connectors.TomcatConnector"),
-	WILDFLY ("wildfly", "org.michaelss.appmonitor.connectors.WildflyConnector");
+	TOMCAT ("tomcat", "org.michaelss.inventory.connectors.TomcatConnector"),
+	WILDFLY ("wildfly", "org.michaelss.inventory.connectors.WildflyConnector");
 	
 	private String name;
 	private String connectorClass;
