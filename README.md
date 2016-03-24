@@ -23,7 +23,7 @@ Here is a preview of the main page:
 
 1. Configure Wildfly with standalone-full.xml.
 2. Configure a MySQL datasource in Wildfly and expose it under JNDI with the name "java:jboss/datasources/inventoryDS".
-3. Place the following snippet in standalone-full.xml:
+3. Place the following snippet in standalone-full.xml, under `<security-domains>` block:
 
 ```xml
 <security-domain name="database-login" cache-type="default">
