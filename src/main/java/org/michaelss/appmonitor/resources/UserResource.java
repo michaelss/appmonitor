@@ -1,7 +1,6 @@
 package org.michaelss.appmonitor.resources;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -9,10 +8,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.jboss.security.Base64Encoder;
 import org.michaelss.appmonitor.dtos.BasicUserDTO;
 import org.michaelss.appmonitor.models.User;
 
@@ -37,36 +37,21 @@ public class UserResource {
 	@Path("session/isAuthorized/{username}")
 	public Response isAuthorized(@PathParam("username") String username, @Context HttpServletRequest request) {
 		
-		if (request.getSession().getAttribute("username") == null) {
+		if (request.getUserPrincipal() == null || !request.getUserPrincipal().getName().equals(username)) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			return Response.ok().build();
 		}
 	}
 
-	@POST
-	@Path("session/authenticate")
-	public Response authenticate(@NotNull @FormParam("username") String username, @NotNull @FormParam("password") String password,
-			@Context HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-		
-		String hashPassword = getMD5(password);
-
-		try {
-			 manager.createQuery("from User u where lower(u.username) = :username and lower(u.password) = :password",
-							User.class)
-					.setParameter("username", username).setParameter("password", hashPassword)
-					.getSingleResult();
-			 request.getSession().setAttribute("username", username);
-			return Response.ok().build();
-		} catch (Exception ex) {
-			return Response.status(Status.UNAUTHORIZED).build();
-		}
-	}
-
 	@GET
 	@Path("session/invalidate")
 	public void invalidate(@Context HttpServletRequest request) {
-		request.getSession().invalidate();
+		try {
+			request.logout();
+		} catch (ServletException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@GET
@@ -95,14 +80,14 @@ public class UserResource {
 	@Transactional
 	@Path("users")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response add(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+	public Response add(User user) throws NoSuchAlgorithmException, IOException {
 		List<User> existing = manager.createQuery("from User u where u.username = :username", User.class)
 				.setParameter("username", user.getUsername()).getResultList();
 		
 		if (existing != null && !existing.isEmpty()) {
 			return Response.status(Status.BAD_REQUEST).entity("Duplicated username.").build();
 		}
-		user.setPassword(getMD5(user.getPassword()));
+		user.setPassword(getHash(user.getPassword()));
 		manager.persist(user);
 		return Response.ok().build();
 	}
@@ -110,7 +95,7 @@ public class UserResource {
 	@POST
 	@Transactional
 	@Path("users/edit")
-	public Response edit(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+	public Response edit(User user) throws NoSuchAlgorithmException, IOException {
 		if (user.getPassword() == null || user.getPassword().isEmpty()) {
 			try {
 				User old = manager.find(User.class, user.getId());
@@ -119,21 +104,15 @@ public class UserResource {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
 		} else {
-			user.setPassword(getMD5(user.getPassword()));
+			user.setPassword(getHash(user.getPassword()));
 		}
 		manager.merge(user);
 		return Response.ok().build();
 	}
 
-	private String getMD5(String text) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-		byte[] textBytes = text.getBytes("UTF-8");
-		byte[] digest = MessageDigest.getInstance("MD5").digest(textBytes);
-		BigInteger bigInt = new BigInteger(1,digest);
-		String hashText = bigInt.toString(16);
-		while (hashText.length() < 32 ) {
-		  hashText = "0" + hashText;
-		}
-		return hashText;
+	private String getHash(String text) throws NoSuchAlgorithmException, IOException {
+		byte[] hash = MessageDigest.getInstance("SHA-256").digest(text.getBytes());
+		return Base64Encoder.encode(hash);
 	}
 	
 	@POST
@@ -144,11 +123,5 @@ public class UserResource {
 		if (user != null) {
 			manager.remove(user);
 		}
-	}
-
-	@GET
-	@Path("users/all")
-	public List<User> listAll() {
-		return manager.createQuery("from User u", User.class).getResultList();
 	}
 }

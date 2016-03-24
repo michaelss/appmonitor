@@ -140,7 +140,7 @@ module.controller('UsersCtrl',
 					data: $.param($scope.form),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}).then(function successCallback(response) {
-					$scope.setUsername($scope.form.username);
+					$scope.setUsername($scope.form.j_username);
 					$location.path('/servers');
 				}, function errorCallback(response) {
 					$scope.setMessage({'text': 'Wrong username or password.', 'status': 'alert'});

@@ -16,13 +16,6 @@
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 
- 	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>public</web-resource-name>
-			<url-pattern>/services/session/*</url-pattern>
-		</web-resource-collection>
-	</security-constraint>
-
 	<security-constraint>
 		<display-name>Users</display-name>
 		<web-resource-collection>
@@ -45,7 +38,6 @@
 		<web-resource-collection>
 			<web-resource-name>servers</web-resource-name>
 			<url-pattern>/services/servers/*</url-pattern>
-			<url-pattern>/services/servers</url-pattern>
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>

@@ -9,7 +9,7 @@ public class SystemRole {
 	@Id
 	private String name;
 	
-	@Deprecated //apenas para os frameworks
+	@Deprecated //just for frameworks
 	public SystemRole() {
 	}
 	
