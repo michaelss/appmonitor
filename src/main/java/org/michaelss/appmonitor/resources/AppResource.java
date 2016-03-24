@@ -42,7 +42,6 @@ public class AppResource {
 			UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(instance.getUsername(), instance.getPassword());
 			return connector.getAppList(hostData, credentials);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			// TODO Adopt a better log solution
 			e.printStackTrace();
 			return null;
 		}

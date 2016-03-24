@@ -36,7 +36,6 @@ public class TomcatConnector implements ServerConnector {
 			return appRawList.stream().map(this::getAppDTO).collect(Collectors.toList());
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}	
@@ -52,7 +51,7 @@ public class TomcatConnector implements ServerConnector {
 	private AppDTO getAppDTO(String appDetailsRaw) {
 		
 		String[] details = appDetailsRaw.split(":");
-		return new AppDTO(details[3], details[1] == "running");
+		return new AppDTO(details[3], details[1].equals("running"));
 	}
 
 }

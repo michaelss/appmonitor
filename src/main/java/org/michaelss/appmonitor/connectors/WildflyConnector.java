@@ -44,7 +44,7 @@ public class WildflyConnector implements ServerConnector {
 			for (ObjectInstance o : obs) {
 				ObjectName n = o.getObjectName();
 				apps.add(new AppDTO(connection.getAttribute(n, "name").toString(),
-						connection.getAttribute(n, "enabled") == "true"));
+						(Boolean) connection.getAttribute(n, "enabled")));
 			}
 			
 			jmxConnector.close();
