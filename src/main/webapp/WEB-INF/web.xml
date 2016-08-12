@@ -4,7 +4,6 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-  
   <servlet>
     <servlet-name>javax.ws.rs.core.Application</servlet-name>
   </servlet>
@@ -12,7 +11,6 @@
     <servlet-name>javax.ws.rs.core.Application</servlet-name>
     <url-pattern>/services/*</url-pattern>
   </servlet-mapping>
-  
   <security-constraint>
     <display-name>Users</display-name>
     <web-resource-collection>
@@ -29,7 +27,6 @@
       <role-name>ADMIN</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <security-constraint>
     <display-name>Servers</display-name>
     <web-resource-collection>
@@ -41,11 +38,9 @@
       <role-name>ADMIN</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <security-role>
     <role-name>ADMIN</role-name>
   </security-role>
-  
   <login-config>
     <auth-method>FORM</auth-method>
     <form-login-config>
