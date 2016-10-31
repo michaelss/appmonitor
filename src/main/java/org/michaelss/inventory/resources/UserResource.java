@@ -22,6 +22,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.jboss.security.Base64Encoder;
 import org.michaelss.inventory.dtos.BasicUserDTO;
 import org.michaelss.inventory.models.User;
@@ -32,6 +34,17 @@ public class UserResource {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@GET
+	@Path("session/username")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getUsername() {
+		Subject subject = SecurityUtils.getSubject();
+		if (subject != null && subject.getPrincipals() != null) {
+			return (String) subject.getPrincipals().oneByType(java.util.Map.class).get("givenName");
+		}
+		return "";
+	}
 
 	@GET
 	@Path("session/isAuthorized/{username}")

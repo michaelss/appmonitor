@@ -15,3 +15,4 @@
 <script src="${pageContext.request.contextPath}/js/vendor/what-input.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/foundation.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/ng-controllers/include/header.js"></script>
