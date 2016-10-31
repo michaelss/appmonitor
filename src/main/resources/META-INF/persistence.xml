@@ -7,7 +7,7 @@
 		transaction-type="JTA">
 		<description>Inventory Persistence Unit</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/inventoryDS</jta-data-source>
+		<jta-data-source>java:/persistence/inventoryDS</jta-data-source>
 		<class>org.michaelss.inventory.models.ServerInstance</class>
 		<class>org.michaelss.inventory.models.User</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>

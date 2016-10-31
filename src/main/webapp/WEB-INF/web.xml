@@ -13,7 +13,26 @@
     <url-pattern>/services/*</url-pattern>
   </servlet-mapping>
   
-  <security-constraint>
+    <listener>
+        <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>ShiroFilter</filter-name>
+        <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>ShiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    
+    
+    <!-- <security-constraint>
     <display-name>Users</display-name>
     <web-resource-collection>
       <web-resource-name>users</web-resource-name>
@@ -52,5 +71,5 @@
       <form-login-page>/login.jsp</form-login-page>
       <form-error-page>/loginError.jsp</form-error-page>
     </form-login-config>
-  </login-config>
+  </login-config> -->
 </web-app>
