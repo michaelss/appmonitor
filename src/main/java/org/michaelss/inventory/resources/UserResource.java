@@ -50,11 +50,19 @@ public class UserResource {
 	@Path("session/isAuthorized/{username}")
 	public Response isAuthorized(@PathParam("username") String username, @Context HttpServletRequest request) {
 		
-		if (request.getUserPrincipal() == null || !request.getUserPrincipal().getName().equals(username)) {
-			return Response.status(Status.FORBIDDEN).build();
-		} else {
+		Subject subject = SecurityUtils.getSubject();
+		if (subject != null && subject.getPrincipals() != null) {
 			return Response.ok().build();
 		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+		
+//		if (request.getUserPrincipal() == null || !request.getUserPrincipal().getName().equals(username)) {
+//			return Response.status(Status.FORBIDDEN).build();
+//		} else {
+//			return Response.ok().build();
+//		}
 	}
 
 	@GET

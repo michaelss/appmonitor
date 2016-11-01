@@ -3,7 +3,7 @@
   <display-name>inventory</display-name>
   
   <welcome-file-list>
-    <welcome-file>/servers/list.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   
   <servlet>
@@ -22,8 +22,7 @@
   <filter>
     <filter-name>ShiroFilter</filter-name>
     <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
-  </filter>
-  
+  </filter> 
   <filter-mapping>
     <filter-name>ShiroFilter</filter-name>
     <url-pattern>/*</url-pattern>
