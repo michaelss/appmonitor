@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
@@ -38,49 +37,15 @@ public class UserResource {
 	@GET
 	@Path("session/username")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getUsername() {
+	public Response getUsername() {
 		Subject subject = SecurityUtils.getSubject();
 		if (subject != null && subject.getPrincipals() != null) {
-			return (String) subject.getPrincipals().oneByType(java.util.Map.class).get("givenName");
+			String username = (String) subject.getPrincipals().oneByType(java.util.Map.class).get("givenName");
+			return Response.ok(username).build();
 		}
-		return "";
-	}
-
-	@GET
-	@Path("session/isAuthorized/{username}")
-	public Response isAuthorized(@PathParam("username") String username, @Context HttpServletRequest request) {
-		
-		Subject subject = SecurityUtils.getSubject();
-		if (subject != null && subject.getPrincipals() != null) {
-			return Response.ok().build();
-		}
-		else {
-			return Response.status(Status.FORBIDDEN).build();
-		}
-		
-//		if (request.getUserPrincipal() == null || !request.getUserPrincipal().getName().equals(username)) {
-//			return Response.status(Status.FORBIDDEN).build();
-//		} else {
-//			return Response.ok().build();
-//		}
-	}
-
-	@GET
-	@Path("session/invalidate")
-	public void invalidate(@Context HttpServletRequest request) {
-		try {
-			request.logout();
-		} catch (ServletException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@GET
-	@Path("session/invalid")
-	public Response invalid() {
 		return Response.status(Status.FORBIDDEN).build();
 	}
-	
+
 	@GET
 	@Path("session")
 	public String session(@Context HttpServletRequest request) {
