@@ -40,5 +40,4 @@ Here is a preview of the main page:
     <xa-datasource-class>com.mysql.jdbc.Driver</xa-datasource-class>
 </driver>
 ```
-
 2. Inventory adopts [Apache Shiro](http://shiro.apache.org/) as authentication and authorization framework, and [Stormpath](https://stormpath.com/) as credentials provider, where you can create users and passwords. So, please sign up or sign in to Stormpath and create an application to represent your Inventory instance. A step-by-step guide on this can be found [here](http://shiro.apache.org/webapp-tutorial.html#sign-up-for-stormpath). Go only until the end of section "2a". If you do not want to build Inventory, place the mentioned "apiKey.properties" in "/opt/stormpath", otherwise, change the path in "src/main/webapp/WEB-INF/shiro.ini" file.
