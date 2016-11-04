@@ -26,12 +26,6 @@
 				<shiro:user><li><a href="<c:url value="/logout"/>" class="hollow button">Logout</a></li></shiro:user>
 				
 				<shiro:guest><li><a href="<c:url value="/login.jsp"/>" class="hollow button"></i>Login</a></li></shiro:guest>
-				
-<!-- 				<li ng-if="userIsLogged()"><a href="#"><i class="fi-torso"></i>{{username}}</a></li>
-				<li ng-if="userIsLogged()"><a href="#/users">Configuration</a></li>
-				<li ng-if="!userIsLogged()"><a href="#/users/login" class="hollow button">Login</a></li>
-				<li ng-if="userIsLogged()"><a ng-click="logout()" href="#" class="hollow button">Logout</a></li>
- -->
  			</ul>
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 <%@include file="include/header.jsp" %>
 
-	<div ng-controller="LoginController">
+	<div>
 	
 		<div class="row column">
 			<br>
@@ -46,6 +46,5 @@
 	</div>
 
 	<%@include file="include/footer.jsp" %>
-	<script src="js/ng-controllers/login.js"></script>
 </body>
 </html>
