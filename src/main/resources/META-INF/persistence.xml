@@ -9,13 +9,12 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/persistence/inventoryDS</jta-data-source>
 		<class>org.michaelss.inventory.models.ServerInstance</class>
-		<class>org.michaelss.inventory.models.User</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.transaction.flush_before_completion"
 				value="true" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
 		</properties>
 	</persistence-unit>
 
