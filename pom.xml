@@ -17,7 +17,7 @@
 	
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
+<!-- 			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-6.0</artifactId>
 				<version>3.0.3.Final</version>
@@ -29,7 +29,7 @@
 				<artifactId>javax.faces-api</artifactId>
 				<version>2.2</version>
 				<scope>provided</scope>
-			</dependency>
+			</dependency> -->
 			<dependency>
 				<groupId>javax.enterprise</groupId>
 				<artifactId>cdi-api</artifactId>
@@ -40,11 +40,17 @@
 	</dependencyManagement>
 	
 	<dependencies>
-		<dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+<!-- 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>javax.faces-api</artifactId>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
@@ -60,11 +66,11 @@
 			<artifactId>jboss-client</artifactId>
 			<version>9.0.2</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 		
 		<!-- Shiro dependencies: -->
 		<dependency>

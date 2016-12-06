@@ -44,7 +44,9 @@ public class TomcatConnector implements ServerConnector {
 	private List<String> getAppList(String appsString) {
 		
 		String[] itemArray = appsString.split("\n");
-		return new ArrayList<String>(Arrays.asList(itemArray)).stream().filter(i -> i.startsWith("/")).sorted()
+		return new ArrayList<String>(Arrays.asList(itemArray)).stream()
+				.filter(i -> i.startsWith("/"))
+				.sorted((a1, a2) -> a1.compareToIgnoreCase(a2))
 				.collect(Collectors.toList());
 	}
 
