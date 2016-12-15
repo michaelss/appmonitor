@@ -12,11 +12,20 @@ module.controller('ApplicationCtrl',
 			$scope.setMessage = function(message) {
 				$scope.message = message;
 			}
-	
-			$scope.setUsername = function(username) {
-				$scope.username = sessionStorage['username'] = username;
+			
+			var setUsername = function() {
+				if (!$scope.username) {
+					$http.get('services/session/username').then(function successCallback(response) {
+						$scope.username = sessionStorage['username'] = response.data;
+					}, function errorCallback(response) {
+						$scope.logout();
+						$location.path('/servers');
+					});
+				}
 			};
 			
+			setUsername();
+	
 			$scope.userIsLogged = function() {
 				return !!$scope.username;
 			};
@@ -24,24 +33,17 @@ module.controller('ApplicationCtrl',
 			$scope.logout = function() {
 				$scope.username = null;
 				delete sessionStorage['username'];
-				$http.get('services/session/invalidate');
+				$http.get('logout');
 				$location.path('/servers');
 			}
 			
 			$rootScope.$on("$routeChangeStart", function(event, next, current) {
-				if (next.$$route !== undefined && next.$$route.originalPath != '/users/login'
-					&& next.$$route.originalPath != '/servers') {
-					$scope.verifySession();
-				}
+//				if (next.$$route !== undefined && next.$$route.originalPath != '/login.jsp'
+//					&& next.$$route.originalPath != '/servers') {
+//					$scope.verifySession();
+					setUsername();
+//				}
 			});
-			
-			$scope.verifySession = function() {
-				$http.get('services/session/isAuthorized/' + $scope.username).then(function successCallback(response) {
-				}, function errorCallback(response) {
-					$scope.logout();
-					$location.path('/servers');
-				});
-			}
 			
 		});
 
@@ -134,26 +136,6 @@ module.controller('UsersCtrl',
 	
 			$scope.form = {};
 	
-			$scope.login = function() {
-				$http({method: 'POST', 
-					url: 'j_security_check', 
-					data: $.param($scope.form),
-					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-				}).then(function successCallback(response) {
-					if (response.status == 200) {
-						$scope.setUsername($scope.form.j_username);
-						$location.path('/servers');
-					}
-					else {
-						$scope.setMessage({'text': 'Wrong username or password.', 'status': 'alert'});
-						$timeout(function() { $scope.setMessage('')}, messageDelay);
-					}
-				}, function errorCallback(response) {
-					$scope.setMessage({'text': 'Wrong username or password.', 'status': 'alert'});
-					$timeout(function() { $scope.setMessage('')}, messageDelay);
-				});
-			};
-			
 			$scope.loadUsers = function() {
 				$http.get('services/users').then(function successCallback(response) {
 					$scope.users = response.data;
